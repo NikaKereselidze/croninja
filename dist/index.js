@@ -32,14 +32,26 @@ function parseDateTime(dateStr) {
 }
 function generateCron(dateTime, dayOfWeek) {
     const hourOffset = 4;
-    const cron = `${dateTime.second} ${dateTime.minute} ${String(parseInt(dateTime.hour) + hourOffset)} ${dateTime.day} ${dateTime.month} ${dayOfWeek}`;
+    if (parseInt(dateTime.hour) + hourOffset > 24) {
+        console.log(parseInt(dateTime.hour) + hourOffset);
+        dateTime.hour = String(parseInt(dateTime.hour) + hourOffset - 24);
+    }
+    const cron = `${dateTime.second} ${dateTime.minute} ${dateTime.hour} ${dateTime.day} ${dateTime.month} ${dayOfWeek}`;
     return cron;
 }
-function Croninja(dayOfWeek, offsets) {
-    validateDayOfWeek(dayOfWeek);
-    const dateStr = calculateDate(offsets);
+function Croninja(offsets, dayOfWeek) {
+    if (dayOfWeek) {
+        validateDayOfWeek(dayOfWeek);
+    }
+    const dateStr = calculateDate(offsets || {
+        second: 0,
+        minute: 0,
+        hour: 0,
+        day: 0,
+        month: 0,
+    });
     const dateTime = parseDateTime(dateStr);
-    const cron = generateCron(dateTime, dayOfWeek);
+    const cron = generateCron(dateTime, dayOfWeek || "*");
     return cron;
 }
 exports.Croninja = Croninja;

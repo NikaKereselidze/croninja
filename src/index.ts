@@ -52,18 +52,30 @@ function parseDateTime(dateStr: string): DateTime {
 
 function generateCron(dateTime: DateTime, dayOfWeek: string): string {
   const hourOffset = 4;
-  const cron = `${dateTime.second} ${dateTime.minute} ${String(
-    parseInt(dateTime.hour) + hourOffset
-  )} ${dateTime.day} ${dateTime.month} ${dayOfWeek}`;
+  if (parseInt(dateTime.hour) + hourOffset > 24) {
+    console.log(parseInt(dateTime.hour) + hourOffset);
+    dateTime.hour = String(parseInt(dateTime.hour) + hourOffset - 24);
+  }
+  const cron = `${dateTime.second} ${dateTime.minute} ${dateTime.hour} ${dateTime.day} ${dateTime.month} ${dayOfWeek}`;
 
   return cron;
 }
 
-function Croninja(dayOfWeek: string, offsets: Offsets): string {
-  validateDayOfWeek(dayOfWeek);
-  const dateStr = calculateDate(offsets);
+function Croninja(offsets: Offsets, dayOfWeek: string): string {
+  if (dayOfWeek) {
+    validateDayOfWeek(dayOfWeek);
+  }
+  const dateStr = calculateDate(
+    offsets || {
+      second: 0,
+      minute: 0,
+      hour: 0,
+      day: 0,
+      month: 0,
+    }
+  );
   const dateTime = parseDateTime(dateStr);
-  const cron = generateCron(dateTime, dayOfWeek);
+  const cron = generateCron(dateTime, dayOfWeek || "*");
 
   return cron;
 }
