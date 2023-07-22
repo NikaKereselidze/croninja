@@ -33,7 +33,6 @@ function parseDateTime(dateStr) {
 function generateCron(dateTime, dayOfWeek) {
     const hourOffset = 4;
     if (parseInt(dateTime.hour) + hourOffset > 24) {
-        console.log(parseInt(dateTime.hour) + hourOffset);
         dateTime.hour = String(parseInt(dateTime.hour) + hourOffset - 24);
     }
     const cron = `${dateTime.second} ${dateTime.minute} ${dateTime.hour} ${dateTime.day} ${dateTime.month} ${dayOfWeek}`;
