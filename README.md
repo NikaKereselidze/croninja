@@ -31,6 +31,32 @@ If current time is for e.g 2023 July 23 SUN 13:43:20, cronjob will run after 1 h
 40 45 14 23 7 * 
 ```
 
+## Example of use
+```js
+const { Croninja } = require("croninja");
+const cron = require("node-cron");
+
+const crontime = Croninja({
+  second: 10,
+  minute: 1,
+  hour: 0,
+  day: 0,
+  month: 0,
+});
+
+cron.schedule(
+  crontime,
+  async () => {
+    try {
+      console.log("This job ran after 1 minute and 10 seconds");
+    } catch (e) {
+      console.error(e);
+    }
+  },
+  { scheduled: true }
+);
+```
+
 ## List of parameters
 
 
