@@ -1,6 +1,6 @@
 {
   "name": "croninja",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "A lightweight cron time parser",
   "main": "dist/index.js",
   "types": "dist/types/index.d.ts",
